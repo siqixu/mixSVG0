@@ -2,7 +2,7 @@
 mixSVG_main = function(y, X, s_trans, pat_idx, perm_sample, libsize, vtest_zero_prop) {
 
   vtest = (mean(y==0) < vtest_zero_prop)
-  
+   ETv = DTv = ETv_perm = DTv_perm = NA
 
   # estimation under the null
   model_init = glm(y ~  X - 1 + offset(log(libsize)), family = poisson)
