@@ -2,6 +2,7 @@
 mixSVG_main = function(y, X, s_trans, pat_idx,  libsize, vtest_zero_prop) {
 
   vtest = (mean(y==0) < vtest_zero_prop)
+  
 
   # estimation under the null
   model_init = glm(y ~  X - 1 + offset(log(libsize)), family = poisson)
@@ -33,7 +34,18 @@ mixSVG_main = function(y, X, s_trans, pat_idx,  libsize, vtest_zero_prop) {
     if(vtest){
       # test for randome effect
       Tv = sum(res2*s1_sq) + sum(res2*s2_sq)
-
+      
+      Tv_perm = apply(perm_sample, 2,FUN = function(perm){
+        res_perm = res[perm]
+        res2_perm = res2[perm]
+        Tv_perm = sum(res2_perm*s1_sq) + sum(res2_perm*s2_sq)
+        return(Tv_perm)
+      })
+      
+      ETv_perm = mean(Tv_perm)
+      DTv_perm = var(Tv_perm)
+      
+      
       n = length(y)
       J=rep(1,n)
       JVinvJ=sum(1/vw)
@@ -93,7 +105,7 @@ mixSVG_main = function(y, X, s_trans, pat_idx,  libsize, vtest_zero_prop) {
   T_final = mean(tan(pi*(0.5-pval)))
   pval = 1 - pcauchy(T_final)
 
-  out = list(model0 = par, pval = pval,  pval_pat = pval_pat)
+  out = list(model0 = par, pval = pval,  pval_pat = pval_pat, ETv, DTv, ETv_perm, DTv_perm)
   return(out)
 }
 
