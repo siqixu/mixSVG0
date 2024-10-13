@@ -76,7 +76,7 @@ for(transfunc in c('gaussian', 'cosine')){
     # gi = 1;
     set.seed(gi)
     y = as.matrix(count[gi,])
-    results = mixSVG_main(y, X, s_trans, pat_idx,  libsize, vtest_zero_prop)
+    results = mixSVG_main(y, X, s_trans, pat_idx, perm_sample, libsize, vtest_zero_prop)
   }
   names(results) = rownames(count)
 
