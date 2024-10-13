@@ -2,8 +2,7 @@
 mixSVG_main = function(y, X, s_trans, pat_idx, perm_sample, libsize, vtest_zero_prop) {
 
   vtest = (mean(y==0) < vtest_zero_prop)
-   ETv = DTv = ETv_perm = DTv_perm = NA
-
+  
   # estimation under the null
   model_init = glm(y ~  X - 1 + offset(log(libsize)), family = poisson)
   model0 = fit_glmm(y, X, model_init, libsize)
@@ -92,7 +91,7 @@ mixSVG_main = function(y, X, s_trans, pat_idx, perm_sample, libsize, vtest_zero_
       ETv = DTv = ETv_perm = DTv_perm = NA
     }
 
-    return(c(pval, pval_b, pval_v))
+    return(c(pval, pval_b, pval_v, ETv, DTv, ETv_perm, DTv_perm))
   }
 
   # test for each spatial expression pattern
