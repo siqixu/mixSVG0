@@ -8,7 +8,7 @@ mixSVG0 = function(count,
                   ncore = 10,
                   n_perm = 1000,
                   sig = 0.05,
-                 c_gau = c(-1,0,1), c_cos = c(0,0.5,1), l_gau = c(0.5,1), l_cos = c(0.5,1)){
+                 c_gau = 0, c_cos = 0, l_gau = 1, l_cos = 1){
 
   n = ncol(count)
   ngene = nrow(count)
