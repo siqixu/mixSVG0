@@ -33,7 +33,8 @@ mixSVG_main = function(y, X, s_trans, pat_idx,  libsize, vtest_zero_prop) {
     if(vtest){
       # test for randome effect
       Tv = sum(res2*s1_sq) + sum(res2*s2_sq)
-      
+
+      n = length(y)
       J=rep(1,n)
       JVinvJ=sum(1/vw)
       JVinv.X1=sum(s1/vw)
