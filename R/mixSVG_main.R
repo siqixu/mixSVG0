@@ -105,7 +105,8 @@ mixSVG_main = function(y, X, s_trans, pat_idx, perm_sample, libsize, vtest_zero_
   T_final = mean(tan(pi*(0.5-pval)))
   pval = 1 - pcauchy(T_final)
 
-  out = list(model0 = par, pval = pval,  pval_pat = pval_pat, ETv, DTv, ETv_perm, DTv_perm)
+  out = list(model0 = par, pval = pval,  pval_pat = pval_pat, 
+             ETv = ETv, DTv = DTv, ETv_perm = ETv_perm, DTv_perm=DTv_perm)
   return(out)
 }
 
