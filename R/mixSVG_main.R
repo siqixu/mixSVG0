@@ -1,5 +1,5 @@
 
-mixSVG_main = function(y, X, s_trans, pat_idx,  libsize, vtest_zero_prop) {
+mixSVG_main = function(y, X, s_trans, pat_idx, perm_sample, libsize, vtest_zero_prop) {
 
   vtest = (mean(y==0) < vtest_zero_prop)
   
