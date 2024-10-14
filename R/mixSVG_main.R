@@ -43,10 +43,11 @@ mixSVG_main = function(y, X, s_trans, pat_idx, perm_sample, libsize, vtest_zero_
       
       ETv_perm = mean(Tv_perm)
       DTv_perm = var(Tv_perm)
-      
+      k_perm = DTv_perm/(2 * ETv_perm)
+      df_perm = 2*ETv_perm^2/(DTv_perm)
       
       n = length(y)
-      J=rep(1,n)
+      J = rep(1,n)
       JVinvJ=sum(1/vw)
       JVinv.X1=sum(s1/vw)
       A1=(s1^2+s2^2)/vw
@@ -88,15 +89,18 @@ mixSVG_main = function(y, X, s_trans, pat_idx, perm_sample, libsize, vtest_zero_
     }else{
       pval_v = 1
       pval = pval_b
-      ETv = DTv = ETv_perm = DTv_perm = NA
+      ETv = DTv = ETv_perm = DTv_perm = k = df = k_perm = df_perm = NA
     }
 
-    return(c(pval, pval_b, pval_v, ETv, DTv, ETv_perm, DTv_perm))
+    return(c(pval, pval_b, pval_v, ETv, DTv, ETv_perm, DTv_perm,
+            k, df, k_perm, df_perm))
   }
 
   # test for each spatial expression pattern
   pval_pat = t(apply(t(pat_idx), 2, FUN = test_func))
-  colnames(pval_pat) = c('pval_omn', 'pval_b', 'pval_v', 'ETv', 'DTv', 'ETv_perm', 'DTv_perm')
+  colnames(pval_pat) = c('pval_omn', 'pval_b', 'pval_v', 
+                         'ETv', 'DTv', 'ETv_perm', 'DTv_perm',
+                        'k', 'df', 'k_perm', 'df_perm')
 
   # combine the p-values of all patterns
   pval = pval_pat[, 'pval_omn']
