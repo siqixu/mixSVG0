@@ -8,7 +8,10 @@ mixSVG0 = function(count,
                   ncore = 10,
                   n_perm = 1000,
                   sig = 0.05,
-                 c_gau = 0, c_cos = 0, l_gau = 1, l_cos = 1){
+                  c_gau = c(-1,0,1), c_cos = c(0,0.5,1), 
+                  l_gau = c(0.1,1), l_cos = c(0.5,1),
+                  c2_gau = c(0,-1), c2_cos = c(-1,1)
+                 ){
 
   n = ncol(count)
   ngene = nrow(count)
@@ -44,24 +47,30 @@ mixSVG0 = function(count,
 
   # transformation of spatial coordinates
   s_trans = coord
+  pat_name = 'linear'
 
 for(transfunc in c('gaussian', 'cosine')){
   if(transfunc=='gaussian'){
     C = c_gau
     L = l_gau
+    C2 = c2_gau
   }else{
     C = c_cos
     L = l_cos
+    C2 = c2_cos
   }
   for(l in L){
     for(c in C){
-      s_trans = cbind(s_trans, apply(coord, 2, transcoord_func, transfunc = transfunc, l = l, c = c))
+       for(c2 in C2){
+          s_trans = cbind(s_trans, apply(coord, 2, transcoord_func, transfunc = transfunc, l = l, c = c, c2 = c2))
+          pat_name = c(pat_name, paste(transfunc,l,c,c2,sep = "_"))
+       }
     }
   }
 }
 
 
-  pat_idx = 1:(ncol(s_trans)/2)
+  pat_idx = 1:length(pat_name)
 
   # generate permutation samples
   perm_sample = apply(t(1:n_perm), 2, FUN = function(i){
@@ -73,10 +82,9 @@ for(transfunc in c('gaussian', 'cosine')){
   X = cbind("intercept" = rep(1,n), X)
   registerDoParallel(ncore)
   results <- foreach(gi = 1:ngene) %dopar% {
-    # gi = 1;
-    set.seed(gi)
+    # gi = 1
     y = as.matrix(count[gi,])
-    results = mixSVG_main(y, X, s_trans, pat_idx, perm_sample, libsize, vtest_zero_prop)
+    results = mixSVG_main(y, X, s_trans, pat_idx, pat_name, perm_sample, libsize, vtest_zero_prop)
   }
   names(results) = rownames(count)
 
