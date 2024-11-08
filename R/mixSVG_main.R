@@ -70,7 +70,7 @@ mixSVG_main = function(y, X, s_trans, pat_idx, pat_name, perm_sample, libsize, v
       # trPKPK = sum(diag(P)^2*(s1^2+s2^2)^2)
       
       ETv = trPK
-      DTv = 2*trPKPK - 2*trPKP^2/trPP
+      DTv = 2*trPKPK # - 2*trPKP^2/trPP
       
       k = DTv/(2 * ETv)
       df = 2*ETv^2/(DTv)
