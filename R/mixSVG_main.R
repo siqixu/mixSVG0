@@ -87,10 +87,10 @@ mixSVG_main = function(y, X, s_trans, pat_idx, perm_sample, libsize, vtest_zero_
     }else{
       pval_v = 1
       pval = pval_b
-      ETv = DTv = ETv_perm = DTv_perm = k = df = k_perm = df_perm = NA
+      Tv = ETv = DTv = ETv_perm = DTv_perm = k = df = k_perm = df_perm = NA
     }
     
-    return(c(pval, pval_b, pval_v, ETv, DTv, ETv_perm, DTv_perm,
+    return(c(pval, pval_b, pval_v, Tv, ETv, DTv, ETv_perm, DTv_perm,
              k, df, k_perm, df_perm))
   }
   
