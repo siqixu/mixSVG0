@@ -96,7 +96,7 @@ mixSVG_main = function(y, X, s_trans, pat_idx, perm_sample, libsize, vtest_zero_
   
   # test for each spatial expression pattern
   pval_pat = t(apply(t(pat_idx), 2, FUN = test_func))
-  colnames(pval_pat) = c('pval_omn', 'pval_b', 'pval_v', 
+  colnames(pval_pat) = c('pval_omn', 'pval_b', 'pval_v', 'Tv',
                          'ETv', 'DTv', 'ETv_perm', 'DTv_perm',
                          'k', 'df', 'k_perm', 'df_perm')
   
